@@ -2,16 +2,21 @@
  * Persona Matching Experiment v4 — Google Sheets Backend
  *
  * 部署步骤:
- * 1. 打开 Google Sheets，新建一个空白表格
- * 2. 点击 "扩展程序 > Apps Script"
- * 3. 粘贴此文件全部代码
+ * 1. 打开 Google Sheets，新建一个空白表格，复制 URL 中的表格 ID
+ *    → URL 格式: https://docs.google.com/spreadsheets/d/{表格ID}/edit
+ * 2. 菜单: "扩展程序 > Apps Script"
+ * 3. 粘贴此文件全部代码，替换 YOUR_SPREADSHEET_ID 为你的表格 ID
  * 4. 点击 "部署 > 新部署 > 网页应用"，执行身份设为"我"，访问权限设为"任何人"
- * 5. 复制部署 URL（以 /exec 结尾），填入下方的 GAS_URL 占位符
+ * 5. 复制部署 URL（以 /exec 结尾），填入前端 HTML 的 GAS_URL 占位符
  */
+
+// ========== 你的 Google Sheets 表格 ID ==========
+// 从表格 URL 中复制: https://docs.google.com/spreadsheets/d/{这个ID}/edit
+var SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID';
 
 // ========== 每页列名 ==========
 // 与 analyze_results_v4.py 的 trials CSV 字段对齐
-const TRIAL_HEADERS = [
+var TRIAL_HEADERS = [
   "timestamp",
   "participant_id",
   "question_id",
@@ -28,8 +33,7 @@ const TRIAL_HEADERS = [
   "response_time_ms",
 ];
 
-// 每个 question 的顶层字段记录一次
-const META_HEADERS = [
+var META_HEADERS = [
   "questions_file",
   "audio_dir",
   "total_questions",
@@ -38,10 +42,19 @@ const META_HEADERS = [
   "accuracy",
 ];
 
+function getSpreadsheet_() {
+  // 容器绑定脚本优先用 getActiveSpreadsheet，否则用 openById
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss) return ss;
+  } catch (e) {}
+  return SpreadsheetApp.openById(SPREADSHEET_ID);
+}
+
 function doPost(e) {
   try {
-    const payload = JSON.parse(e.postData.contents);
-    return handleSubmission(payload);
+    var payload = JSON.parse(e.postData.contents);
+    return handleSubmission_(payload);
   } catch (err) {
     return ContentService.createTextOutput(
       JSON.stringify({ ok: false, error: err.message })
@@ -49,36 +62,34 @@ function doPost(e) {
   }
 }
 
-// GET 用于连接测试
 function doGet(e) {
   return ContentService.createTextOutput(
     JSON.stringify({ ok: true, message: "Persona Matching Experiment backend is alive." })
   ).setMimeType(ContentService.MimeType.JSON);
 }
 
-function handleSubmission(payload) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet();
-  const trialSheet = ensureSheet(sheet, "trials", TRIAL_HEADERS);
-  const metaSheet = ensureSheet(sheet, "meta", META_HEADERS);
+function handleSubmission_(payload) {
+  var sheet = getSpreadsheet_();
+  var trialSheet = ensureSheet_(sheet, "trials", TRIAL_HEADERS);
+  var metaSheet = ensureSheet_(sheet, "meta", META_HEADERS);
 
-  const trials = payload.question_results || [];
+  var trials = payload.question_results || [];
   if (!Array.isArray(trials) || trials.length === 0) {
     return ContentService.createTextOutput(
       JSON.stringify({ ok: false, error: "Empty question_results" })
     ).setMimeType(ContentService.MimeType.JSON);
   }
 
-  const timestamp = payload.timestamp || new Date().toISOString();
-  const participantId = Utilities.getUuid();
+  var timestamp = payload.timestamp || new Date().toISOString();
+  var participantId = Utilities.getUuid();
 
-  // 逐行写入 trials
-  const trialRows = trials.map(function (trial) {
+  var trialRows = trials.map(function (trial) {
     return TRIAL_HEADERS.map(function (h) {
       if (h === "timestamp") return timestamp;
       if (h === "participant_id") return participantId;
       if (h === "is_correct") return trial.is_correct === true ? "TRUE" : trial.is_correct === false ? "FALSE" : "";
       if (h === "response_time_ms") return trial.response_time_ms != null ? trial.response_time_ms : "";
-      const val = trial[h] != null ? trial[h] : "";
+      var val = trial[h] != null ? trial[h] : "";
       return typeof val === "string" ? val : JSON.stringify(val);
     });
   });
@@ -89,11 +100,10 @@ function handleSubmission(payload) {
       .setValues(trialRows);
   }
 
-  // 写入一条 meta
-  const metaRow = META_HEADERS.map(function (h) {
+  var metaRow = META_HEADERS.map(function (h) {
     if (h === "timestamp") return timestamp;
     if (h === "participant_id") return participantId;
-    const val = payload[h] != null ? payload[h] : "";
+    var val = payload[h] != null ? payload[h] : "";
     return typeof val === "string" ? val : JSON.stringify(val);
   });
   metaSheet
@@ -105,8 +115,8 @@ function handleSubmission(payload) {
   ).setMimeType(ContentService.MimeType.JSON);
 }
 
-function ensureSheet(spreadsheet, name, headers) {
-  let sheet = spreadsheet.getSheetByName(name);
+function ensureSheet_(spreadsheet, name, headers) {
+  var sheet = spreadsheet.getSheetByName(name);
   if (!sheet) {
     sheet = spreadsheet.insertSheet(name);
     sheet.appendRow(headers);
