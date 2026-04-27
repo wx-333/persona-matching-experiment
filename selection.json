@@ -1,0 +1,102 @@
+{
+  "V5_Q001": {
+    "target": "somatic_mass/V5_Q001_target_mimo_rep_1.wav",
+    "negative": "somatic_mass/V5_Q001_negative_mimo_rep_2.wav"
+  },
+  "V5_Q002": {
+    "target": "somatic_mass/V5_Q002_target_mimo_rep_1.wav",
+    "negative": "somatic_mass/V5_Q002_negative_mimo_rep_2.wav"
+  },
+  "V5_Q003": {
+    "target": "somatic_mass/V5_Q003_target_mimo_rep_3.wav",
+    "negative": "somatic_mass/V5_Q003_negative_mimo_rep_1.wav"
+  },
+  "V5_Q004": {
+    "target": "somatic_mass/V5_Q004_target_mimo_rep_1.wav",
+    "negative": "somatic_mass/V5_Q004_negative_mimo_rep_3.wav"
+  },
+  "V5_Q005": {
+    "target": "vitality/V5_Q005_target_mimo_rep_3.wav",
+    "negative": "vitality/V5_Q005_negative_mimo_rep_3.wav"
+  },
+  "V5_Q006": {
+    "target": "vitality/V5_Q006_target_mimo_rep_3.wav",
+    "negative": "vitality/V5_Q006_negative_mimo_rep_2.wav"
+  },
+  "V5_Q007": {
+    "target": "vitality/V5_Q007_target_mimo_rep_1.wav",
+    "negative": "vitality/V5_Q007_negative_mimo_rep_2.wav"
+  },
+  "V5_Q008": {
+    "target": "vitality/V5_Q008_target_mimo_rep_2.wav",
+    "negative": "vitality/V5_Q008_negative_mimo_rep_1.wav"
+  },
+  "V5_Q009": {
+    "target": "social_dominance/V5_Q009_target_mimo_rep_3.wav",
+    "negative": "social_dominance/V5_Q009_negative_mimo_rep_1.wav"
+  },
+  "V5_Q010": {
+    "target": "social_dominance/V5_Q010_target_mimo_rep_2.wav",
+    "negative": "social_dominance/V5_Q010_negative_mimo_rep_2.wav"
+  },
+  "V5_Q011": {
+    "target": "social_dominance/V5_Q011_target_mimo_rep_2.wav",
+    "negative": "social_dominance/V5_Q011_negative_mimo_rep_3.wav"
+  },
+  "V5_Q012": {
+    "target": "social_dominance/V5_Q012_target_mimo_rep_3.wav",
+    "negative": "social_dominance/V5_Q012_negative_mimo_rep_2.wav"
+  },
+  "V5_Q013": {
+    "target": "emotional_temperature/V5_Q013_target_mimo_rep_2.wav",
+    "negative": "emotional_temperature/V5_Q013_negative_mimo_rep_1.wav"
+  },
+  "V5_Q014": {
+    "target": "emotional_temperature/V5_Q014_target_mimo_rep_2.wav",
+    "negative": "emotional_temperature/V5_Q014_negative_mimo_rep_1.wav"
+  },
+  "V5_Q015": {
+    "target": "emotional_temperature/V5_Q015_target_mimo_rep_3.wav",
+    "negative": "emotional_temperature/V5_Q015_negative_mimo_rep_3.wav"
+  },
+  "V5_Q016": {
+    "target": "emotional_temperature/V5_Q016_target_mimo_rep_3.wav",
+    "negative": "emotional_temperature/V5_Q016_negative_mimo_rep_2.wav"
+  },
+  "V5_Q017": {
+    "target": "vocal_texture/V5_Q017_target_mimo_rep_1.wav",
+    "negative": "vocal_texture/V5_Q017_negative_mimo_rep_3.wav"
+  },
+  "V5_Q018": {
+    "target": "vocal_texture/V5_Q018_target_mimo_rep_2.wav",
+    "negative": "vocal_texture/V5_Q018_negative_mimo_rep_3.wav"
+  },
+  "V5_Q019": {
+    "target": "vocal_texture/V5_Q019_target_mimo_rep_3.wav",
+    "negative": "vocal_texture/V5_Q019_negative_mimo_rep_3.wav"
+  },
+  "V5_Q020": {
+    "target": "vocal_texture/V5_Q020_target_mimo_rep_1.wav",
+    "negative": "vocal_texture/V5_Q020_negative_mimo_rep_2.wav"
+  },
+  "V5_Q021": {
+    "target": "multi/V5_Q021_target_mimo_rep_3.wav",
+    "negative": "multi/V5_Q021_negative_mimo_rep_2.wav"
+  },
+  "V5_Q022": {
+    "target": "multi/V5_Q022_target_mimo_rep_3.wav",
+    "negative": "multi/V5_Q022_negative_mimo_rep_3.wav"
+  },
+  "V5_Q023": {
+    "target": "multi/V5_Q023_target_mimo_rep_3.wav",
+    "negative": "multi/V5_Q023_negative_mimo_rep_1.wav"
+  },
+  "V5_Q024": {
+    "target": "multi/V5_Q024_target_mimo_rep_3.wav",
+    "negative": "multi/V5_Q024_negative_mimo_rep_3.wav"
+  },
+  "V5_Q025": {
+    "target": "multi/V5_Q025_target_mimo_rep_3.wav",
+    "negative": "multi/V5_Q025_negative_mimo_rep_2.wav"
+  }
+}

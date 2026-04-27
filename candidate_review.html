@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persona Matching v4 Candidate Review</title>
+  <style>
+    body { margin: 0; font-family: Georgia, "Noto Serif SC", serif; background: #f3efe6; color: #242016; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px; }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    .intro { color: #675f4e; line-height: 1.6; margin-bottom: 22px; }
+    .toolbar { position: sticky; top: 0; z-index: 5; background: rgba(243,239,230,.96); border-bottom: 1px solid #d7ccb7; padding: 14px 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    button { border: 0; background: #2f5d50; color: white; padding: 10px 16px; border-radius: 999px; cursor: pointer; font-weight: 700; }
+    button.secondary { background: #8c6f3f; }
+    button.ghost { background: #d8c8a8; color: #242016; }
+    .status { margin-left: auto; font-weight: 700; color: #2f5d50; }
+    .card { background: #fffaf0; border: 1px solid #d7ccb7; border-radius: 18px; padding: 22px; margin: 18px 0; box-shadow: 0 12px 30px rgba(44,36,20,.08); }
+    .qid { color: #8c6f3f; font-weight: 700; letter-spacing: .08em; }
+    .prompt { font-size: 21px; margin: 8px 0; font-weight: 700; }
+    .text { color: #675f4e; margin-bottom: 18px; }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .role { background: #f7f0df; border-radius: 14px; padding: 14px; }
+    .role h3 { margin: 0 0 10px; font-size: 17px; }
+    .candidate { background: white; border: 2px solid transparent; border-radius: 12px; padding: 12px; margin: 10px 0; }
+    .candidate.selected { border-color: #2f5d50; background: #eef7ed; }
+    .candidate.flagged { box-shadow: inset 4px 0 #b54b38; }
+    .line { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    code { font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; color: #473b2b; }
+    audio { width: 100%; margin-top: 8px; }
+    .metrics { font-size: 12px; color: #675f4e; margin-top: 6px; }
+    .flags { color: #b54b38; font-weight: 700; }
+    textarea { width: 100%; min-height: 230px; margin-top: 16px; border-radius: 12px; border: 1px solid #d7ccb7; padding: 12px; font-family: "SFMono-Regular", Consolas, monospace; }
+    @media (max-width: 760px) { .columns { grid-template-columns: 1fr; } .status { margin-left: 0; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Persona Matching v4 候选音频听审</h1>
+    <p class="intro">逐题为 target 和 negative 各选一条。优先排除截断、听不清、明显伪影、响度差太大或维度差异不清的候选。页面会生成可用于构建问卷的 selection JSON。</p>
+    <p class="intro" id="source-info"></p>
+    <div class="toolbar">
+      <button onclick="downloadSelection()">下载 selection.json</button>
+      <button class="secondary" onclick="copySelection()">复制 JSON</button>
+      <button class="ghost" onclick="loadAutoSuggested()">载入自动初筛建议</button>
+      <span class="status" id="status">加载中...</span>
+    </div>
+    <div id="cards"></div>
+    <textarea id="selection-json" spellcheck="false"></textarea>
+  </div>
+
+  <script>
+    let manifest = null;
+    let selection = {};
+    const params = new URLSearchParams(window.location.search);
+    const manifestPath = params.get('manifest') || 'candidate_pool/manifest.json';
+    const audioDir = (params.get('audio_dir') || 'candidate_pool').replace(/\/+$/, '');
+    const suggestedPath = params.get('suggested') || 'selection_auto_suggested.json';
+
+    function candidateFlags(candidate) {
+      const m = candidate.metrics;
+      const flags = [];
+      if (m.duration_sec < 2.0) flags.push('short');
+      if (m.duration_sec >= 8.9) flags.push('hit_max_len');
+      if (m.rms < 0.005) flags.push('low_rms');
+      if (m.peak > 0.98) flags.push('near_clip');
+      if (m.clipping_ratio > 0) flags.push('clipping');
+      if (m.silence_ratio > 0.25) flags.push('high_silence');
+      return flags;
+    }
+
+    function updateStatus() {
+      const done = Object.values(selection).filter(v => v.target && v.negative).length;
+      document.getElementById('status').textContent = `${done} / ${manifest.questions.length} 题已完成`;
+      document.getElementById('selection-json').value = JSON.stringify(selection, null, 2);
+    }
+
+    function selectCandidate(qid, role, path) {
+      if (!selection[qid]) selection[qid] = { target: '', negative: '' };
+      selection[qid][role] = path;
+      render();
+    }
+
+    function renderCandidate(q, role, candidate) {
+      const qid = q.question_id;
+      const selected = selection[qid] && selection[qid][role] === candidate.path;
+      const flags = candidateFlags(candidate);
+      const cls = `candidate ${selected ? 'selected' : ''} ${flags.length ? 'flagged' : ''}`;
+      const metrics = candidate.metrics;
+      return `
+        <div class="${cls}">
+          <div class="line">
+            <label>
+              <input type="radio" name="${qid}-${role}" ${selected ? 'checked' : ''} onchange="selectCandidate('${qid}', '${role}', '${candidate.path}')">
+              <code>${candidate.path}</code>
+            </label>
+            <span class="flags">${flags.join(', ')}</span>
+          </div>
+          <audio controls preload="none" src="./${audioDir}/${candidate.path}"></audio>
+          <div class="metrics">dur ${metrics.duration_sec}s | rms ${metrics.rms} | peak ${metrics.peak} | silence ${metrics.silence_ratio}</div>
+        </div>
+      `;
+    }
+
+    function render() {
+      const cards = manifest.questions.map(q => `
+        <section class="card">
+          <div class="qid">${q.question_id} · ${q.dimension}</div>
+          <div class="prompt">${q.prompt_text}</div>
+          <div class="text">${q.text}</div>
+          <div class="columns">
+            <div class="role">
+              <h3>Target 候选</h3>
+              ${q.candidates.target.map(c => renderCandidate(q, 'target', c)).join('')}
+            </div>
+            <div class="role">
+              <h3>Negative 候选</h3>
+              ${q.candidates.negative.map(c => renderCandidate(q, 'negative', c)).join('')}
+            </div>
+          </div>
+        </section>
+      `).join('');
+      document.getElementById('cards').innerHTML = cards;
+      updateStatus();
+    }
+
+    async function loadAutoSuggested() {
+      const response = await fetch(`./${suggestedPath}`);
+      if (!response.ok) {
+        document.getElementById('status').textContent = `没有可用的自动初筛文件: ${suggestedPath}`;
+        return;
+      }
+      const suggested = await response.json();
+      selection = {};
+      for (const [qid, value] of Object.entries(suggested)) {
+        selection[qid] = { target: value.target, negative: value.negative };
+      }
+      render();
+    }
+
+    function downloadSelection() {
+      const blob = new Blob([JSON.stringify(selection, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'selection.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copySelection() {
+      await navigator.clipboard.writeText(JSON.stringify(selection, null, 2));
+    }
+
+    async function main() {
+      document.getElementById('source-info').textContent = `当前候选清单: ${manifestPath} | 音频目录: ${audioDir}`;
+      const response = await fetch(`./${manifestPath}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}: ${manifestPath}`);
+      manifest = await response.json();
+      manifest.questions.forEach(q => selection[q.question_id] = { target: '', negative: '' });
+      render();
+    }
+
+    main().catch(err => {
+      document.getElementById('status').textContent = '加载失败';
+      console.error(err);
+    });
+  </script>
+</body>
+</html>

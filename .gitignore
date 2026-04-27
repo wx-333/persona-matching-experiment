@@ -1,0 +1,45 @@
+# 排除开发/临时文件，保留部署所需的静态文件
+
+# Python / 开发文件
+*.py
+__pycache__/
+*.pyc
+
+# 候选池（开发中间产物，不需要部署）
+candidate_pool/
+mimo_candidate_pool_v6/
+
+# 生成清单（中间产物）
+mimo_generation_manifest*.json
+
+# 分析文件（本地分析用）
+analysis_*.csv
+analysis_*.md
+
+# 旧的实验版本音频（如不需要可取消注释）
+# audio_samples/
+
+# 服务器脚本（本地测试用）
+server_v4.py
+
+# 实验原始结果（不应公开）
+experiment_results_*.json
+
+# 已废弃的问卷版本
+questions_mimo_v5.json
+questions_mimo_v5_test.json
+questions_mimo_v6_unscreened.json
+questions_mimo.json
+
+# 开发文档
+questionnaire_design_review.md
+tts_generation_prompts.md
+MiMo-V2.5-TTS-VoiceDesign使用指南.md
+
+# 旧的筛选记录
+selection_auto_suggested.json
+selection_template.json
+
+# 旧版音频
+mimo_audio_samples_v5/
+mimo_audio_samples/

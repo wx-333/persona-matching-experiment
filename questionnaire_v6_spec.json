@@ -1,0 +1,239 @@
+{
+  "version": "v6_candidate_screening_draft",
+  "design_goal": "Natural-language persona matching questionnaire with MiMo candidate screening before final assembly.",
+  "base_voice_prompt": "Adult male speaker, neutral American English pronunciation, natural studio narration, clear articulation, consistent age and accent. Keep the voice natural and intelligible. Only vary the requested persona trait.",
+  "single_dimension_items_per_dimension": 4,
+  "full_persona_items": 5,
+  "notes": [
+    "This version keeps the 25-item v5 structure but uses softer, more listener-friendly prompt wording.",
+    "Generate multiple MiMo candidates per endpoint, review them in candidate_review.html, then build the final questionnaire from selection.json.",
+    "A/B assignment should be randomized per participant or generated as counterbalanced forms for formal collection."
+  ],
+  "items": [
+    {
+      "question_id": "V5_Q001",
+      "task_type": "dimension",
+      "target_dimension": "somatic_mass",
+      "prompt_text": "哪一段声音听起来更低沉、更有厚度？",
+      "spoken_content": "The package arrived before noon on Friday.",
+      "target_prompt": "Make the voice deep, heavy, resonant, and full-bodied.",
+      "negative_prompt": "Make the voice light, thin, bright, and low in vocal weight."
+    },
+    {
+      "question_id": "V5_Q002",
+      "task_type": "dimension",
+      "target_dimension": "somatic_mass",
+      "prompt_text": "哪一段声音听起来更轻、更亮？",
+      "spoken_content": "The notebook was placed beside the window.",
+      "target_prompt": "Make the voice light, thin, bright, and low in vocal weight.",
+      "negative_prompt": "Make the voice deep, heavy, resonant, and full-bodied."
+    },
+    {
+      "question_id": "V5_Q003",
+      "task_type": "dimension",
+      "target_dimension": "somatic_mass",
+      "prompt_text": "哪一段声音更有低频体量和胸腔共鸣感？",
+      "spoken_content": "Several boxes remained near the back door.",
+      "target_prompt": "Make the voice deep, heavy, resonant, and full-bodied.",
+      "negative_prompt": "Make the voice light, thin, bright, and low in vocal weight."
+    },
+    {
+      "question_id": "V5_Q004",
+      "task_type": "dimension",
+      "target_dimension": "somatic_mass",
+      "prompt_text": "哪一段声音更轻巧、更少厚重感？",
+      "spoken_content": "The paper folder stayed on the wooden desk.",
+      "target_prompt": "Make the voice light, thin, bright, and low in vocal weight.",
+      "negative_prompt": "Make the voice deep, heavy, resonant, and full-bodied."
+    },
+    {
+      "question_id": "V5_Q005",
+      "task_type": "dimension",
+      "target_dimension": "vitality",
+      "prompt_text": "哪一段说话更有精神、更有推进感？",
+      "spoken_content": "The train stopped at the central station.",
+      "target_prompt": "Make the delivery energetic, quick, alert, and forward-moving.",
+      "negative_prompt": "Make the delivery slow, relaxed, low-energy, and unhurried."
+    },
+    {
+      "question_id": "V5_Q006",
+      "task_type": "dimension",
+      "target_dimension": "vitality",
+      "prompt_text": "哪一段说话更慢、更松弛？",
+      "spoken_content": "The calendar showed the date in small print.",
+      "target_prompt": "Make the delivery slow, relaxed, low-energy, and unhurried.",
+      "negative_prompt": "Make the delivery energetic, quick, alert, and forward-moving."
+    },
+    {
+      "question_id": "V5_Q007",
+      "task_type": "dimension",
+      "target_dimension": "vitality",
+      "prompt_text": "哪一段听起来更敏捷、更有能量？",
+      "spoken_content": "A glass bottle stood near the kitchen sink.",
+      "target_prompt": "Make the delivery energetic, quick, alert, and forward-moving.",
+      "negative_prompt": "Make the delivery slow, relaxed, low-energy, and unhurried."
+    },
+    {
+      "question_id": "V5_Q008",
+      "task_type": "dimension",
+      "target_dimension": "vitality",
+      "prompt_text": "哪一段听起来更迟缓、更不急不躁？",
+      "spoken_content": "The map was folded into four equal parts.",
+      "target_prompt": "Make the delivery slow, relaxed, low-energy, and unhurried.",
+      "negative_prompt": "Make the delivery energetic, quick, alert, and forward-moving."
+    },
+    {
+      "question_id": "V5_Q009",
+      "task_type": "dimension",
+      "target_dimension": "social_dominance",
+      "prompt_text": "哪一段声音更坚定、更像在掌控局面？",
+      "spoken_content": "The report listed three separate items.",
+      "target_prompt": "Make the speaker sound confident, firm, decisive, and in control.",
+      "negative_prompt": "Make the speaker sound reserved, hesitant, deferential, and less assertive."
+    },
+    {
+      "question_id": "V5_Q010",
+      "task_type": "dimension",
+      "target_dimension": "social_dominance",
+      "prompt_text": "哪一段声音更犹豫、更保留？",
+      "spoken_content": "The chair was moved across the empty room.",
+      "target_prompt": "Make the speaker sound reserved, hesitant, deferential, and less assertive.",
+      "negative_prompt": "Make the speaker sound confident, firm, decisive, and in control."
+    },
+    {
+      "question_id": "V5_Q011",
+      "task_type": "dimension",
+      "target_dimension": "social_dominance",
+      "prompt_text": "哪一段听起来更自信、更稳定？",
+      "spoken_content": "The label was attached to the lower shelf.",
+      "target_prompt": "Make the speaker sound confident, firm, decisive, and in control.",
+      "negative_prompt": "Make the speaker sound reserved, hesitant, deferential, and less assertive."
+    },
+    {
+      "question_id": "V5_Q012",
+      "task_type": "dimension",
+      "target_dimension": "social_dominance",
+      "prompt_text": "哪一段听起来姿态更弱、更不强势？",
+      "spoken_content": "The metal key remained inside the drawer.",
+      "target_prompt": "Make the speaker sound reserved, hesitant, deferential, and less assertive.",
+      "negative_prompt": "Make the speaker sound confident, firm, decisive, and in control."
+    },
+    {
+      "question_id": "V5_Q013",
+      "task_type": "dimension",
+      "target_dimension": "emotional_temperature",
+      "prompt_text": "哪一段声音更温暖、更容易接近？",
+      "spoken_content": "The small lamp stayed on the side table.",
+      "target_prompt": "Make the voice warm, approachable, friendly, and emotionally open.",
+      "negative_prompt": "Make the voice cool, detached, restrained, and emotionally distant."
+    },
+    {
+      "question_id": "V5_Q014",
+      "task_type": "dimension",
+      "target_dimension": "emotional_temperature",
+      "prompt_text": "哪一段声音更冷静、更有距离感？",
+      "spoken_content": "The envelope was sealed with a white sticker.",
+      "target_prompt": "Make the voice cool, detached, restrained, and emotionally distant.",
+      "negative_prompt": "Make the voice warm, approachable, friendly, and emotionally open."
+    },
+    {
+      "question_id": "V5_Q015",
+      "task_type": "dimension",
+      "target_dimension": "emotional_temperature",
+      "prompt_text": "哪一段听起来更亲切、更有情感温度？",
+      "spoken_content": "The hallway lights turned on after sunset.",
+      "target_prompt": "Make the voice warm, approachable, friendly, and emotionally open.",
+      "negative_prompt": "Make the voice cool, detached, restrained, and emotionally distant."
+    },
+    {
+      "question_id": "V5_Q016",
+      "task_type": "dimension",
+      "target_dimension": "emotional_temperature",
+      "prompt_text": "哪一段听起来更克制、更疏离？",
+      "spoken_content": "The file name appeared at the top left.",
+      "target_prompt": "Make the voice cool, detached, restrained, and emotionally distant.",
+      "negative_prompt": "Make the voice warm, approachable, friendly, and emotionally open."
+    },
+    {
+      "question_id": "V5_Q017",
+      "task_type": "dimension",
+      "target_dimension": "vocal_texture",
+      "prompt_text": "哪一段声音更沙哑、更有颗粒感？",
+      "spoken_content": "The stone path curved around the garden wall.",
+      "target_prompt": "Make the voice raspy, grainy, rough, and textured, while still natural and intelligible.",
+      "negative_prompt": "Make the voice smooth, clean, polished, and low in vocal roughness."
+    },
+    {
+      "question_id": "V5_Q018",
+      "task_type": "dimension",
+      "target_dimension": "vocal_texture",
+      "prompt_text": "哪一段声音更干净、更平滑？",
+      "spoken_content": "The silver spoon rested beside the plate.",
+      "target_prompt": "Make the voice smooth, clean, polished, and low in vocal roughness.",
+      "negative_prompt": "Make the voice raspy, grainy, rough, and textured, while still natural and intelligible."
+    },
+    {
+      "question_id": "V5_Q019",
+      "task_type": "dimension",
+      "target_dimension": "vocal_texture",
+      "prompt_text": "哪一段声音更粗糙、更有摩擦感？",
+      "spoken_content": "The brick wall faced the narrow street.",
+      "target_prompt": "Make the voice raspy, grainy, rough, and textured, while still natural and intelligible.",
+      "negative_prompt": "Make the voice smooth, clean, polished, and low in vocal roughness."
+    },
+    {
+      "question_id": "V5_Q020",
+      "task_type": "dimension",
+      "target_dimension": "vocal_texture",
+      "prompt_text": "哪一段声音更顺滑、更少纹理感？",
+      "spoken_content": "The blue curtain covered the open window.",
+      "target_prompt": "Make the voice smooth, clean, polished, and low in vocal roughness.",
+      "negative_prompt": "Make the voice raspy, grainy, rough, and textured, while still natural and intelligible."
+    },
+    {
+      "question_id": "V5_Q021",
+      "task_type": "full_persona",
+      "target_dimension": "multi",
+      "prompt_text": "哪一段整体更像厚重、温暖、并且有掌控感的人？",
+      "spoken_content": "The old clock stood beside the reading table.",
+      "target_prompt": "Make the voice deep, heavy, warm, confident, and in control, with a full-bodied resonance.",
+      "negative_prompt": "Make the voice light, thin, cool, reserved, and less assertive."
+    },
+    {
+      "question_id": "V5_Q022",
+      "task_type": "full_persona",
+      "target_dimension": "multi",
+      "prompt_text": "哪一段整体更像轻薄、冷静、说话克制的人？",
+      "spoken_content": "The white card was placed under the glass.",
+      "target_prompt": "Make the voice light, thin, cool, restrained, and emotionally distant.",
+      "negative_prompt": "Make the voice deep, heavy, warm, expressive, and full-bodied."
+    },
+    {
+      "question_id": "V5_Q023",
+      "task_type": "full_persona",
+      "target_dimension": "multi",
+      "prompt_text": "哪一段整体更有活力、更温暖，并带一点粗糙质感？",
+      "spoken_content": "The wooden frame held a square photograph.",
+      "target_prompt": "Make the delivery energetic and forward-moving, with a warm emotional tone and a lightly textured raspy voice.",
+      "negative_prompt": "Make the delivery slow and restrained, with a cool emotional tone and a smooth clean voice."
+    },
+    {
+      "question_id": "V5_Q024",
+      "task_type": "full_persona",
+      "target_dimension": "multi",
+      "prompt_text": "哪一段整体更低活力、更冷静，声音也更平滑？",
+      "spoken_content": "The paper ticket remained inside the pocket.",
+      "target_prompt": "Make the delivery slow and low-energy, with a cool restrained emotional tone and a smooth clean voice.",
+      "negative_prompt": "Make the delivery energetic and forward-moving, with a warm emotional tone and a rougher textured voice."
+    },
+    {
+      "question_id": "V5_Q025",
+      "task_type": "full_persona",
+      "target_dimension": "multi",
+      "prompt_text": "哪一段整体更自信、厚重，同时情绪更冷静？",
+      "spoken_content": "The black pen rolled toward the notebook.",
+      "target_prompt": "Make the speaker sound confident, firm, and in control, with a deep heavy voice and a cool restrained emotional tone.",
+      "negative_prompt": "Make the speaker sound hesitant and deferential, with a light thin voice and a warmer emotional tone."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "Q001": {
+    "target": "somatic_mass/Q001_target_level_5_rep_3.wav",
+    "negative": "somatic_mass/Q001_negative_level_1_rep_1.wav"
+  },
+  "Q002": {
+    "target": "somatic_mass/Q002_target_level_1_rep_1.wav",
+    "negative": "somatic_mass/Q002_negative_level_5_rep_2.wav"
+  },
+  "Q003": {
+    "target": "vitality/Q003_target_level_5_rep_2.wav",
+    "negative": "vitality/Q003_negative_level_1_rep_2.wav"
+  },
+  "Q004": {
+    "target": "vitality/Q004_target_level_1_rep_2.wav",
+    "negative": "vitality/Q004_negative_level_5_rep_1.wav"
+  },
+  "Q005": {
+    "target": "social_dominance/Q005_target_level_5_rep_2.wav",
+    "negative": "social_dominance/Q005_negative_level_1_rep_3.wav"
+  },
+  "Q006": {
+    "target": "social_dominance/Q006_target_level_1_rep_1.wav",
+    "negative": "social_dominance/Q006_negative_level_5_rep_2.wav"
+  },
+  "Q007": {
+    "target": "emotional_temperature/Q007_target_level_5_rep_1.wav",
+    "negative": "emotional_temperature/Q007_negative_level_1_rep_3.wav"
+  },
+  "Q008": {
+    "target": "emotional_temperature/Q008_target_level_1_rep_2.wav",
+    "negative": "emotional_temperature/Q008_negative_level_5_rep_2.wav"
+  },
+  "Q009": {
+    "target": "vocal_texture/Q009_target_level_5_rep_3.wav",
+    "negative": "vocal_texture/Q009_negative_level_1_rep_2.wav"
+  },
+  "Q010": {
+    "target": "vocal_texture/Q010_target_level_1_rep_3.wav",
+    "negative": "vocal_texture/Q010_negative_level_5_rep_4.wav"
+  },
+  "Q011": {
+    "target": "multi/Q011_target_level_target_rep_1.wav",
+    "negative": "multi/Q011_negative_level_negative_rep_3.wav"
+  }
+}
