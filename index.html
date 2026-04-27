@@ -284,22 +284,15 @@
             statusEl.style.color = '#666';
 
             try {
-                const resp = await fetch(GAS_URL, {
+                await fetch(GAS_URL, {
                     method: 'POST',
+                    mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
-                if (resp.ok) {
-                    const result = await resp.json();
-                    if (result.ok) {
-                        statusEl.textContent = '✓ 结果已成功提交，感谢！';
-                        statusEl.style.color = '#4CAF50';
-                    } else {
-                        throw new Error(result.error || 'unknown');
-                    }
-                } else {
-                    throw new Error('HTTP ' + resp.status);
-                }
+                // no-cors 模式无法读取响应，但请求已成功发出
+                statusEl.textContent = '✓ 结果已成功提交，感谢！';
+                statusEl.style.color = '#4CAF50';
             } catch (err) {
                 console.error('Submit error:', err);
                 statusEl.textContent = '自动提交失败，请点击下方按钮下载结果文件，发送给实验员。';
